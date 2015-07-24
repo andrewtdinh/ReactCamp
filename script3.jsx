@@ -24,7 +24,7 @@ var App = React.createClass({
       </div>
     )
   }
-})
+});
 
 React.render(
   <App collection={ { ryan: 'hello', gerald: 'hi', trey: 'yo'} }/>,
