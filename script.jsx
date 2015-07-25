@@ -1,38 +1,33 @@
-var OneUserGreeting = React.createClass({
-  render: function(){
-    return <li>Hello {this.props.name}</li>
-  }
-});
 
-var Line = React.createClass({
+
+var DeleteLine = React.createClass({
   render: function(){
-    return <hr />;
+    return(
+      <button>Delete</button>
+    )
   }
 });
 
 var Form = React.createClass({
+  handleSubmit: function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.greet({name: this.refs.name2greet.value, email: this.refs.email2greet.value});
+    this.refs.name2greet.value = '';
+    this.refs.email2greet.value = '';
+  },
   render: function(){
     return (
-      <form>
-        <input placeholder='Name' ref='name2greet'/>
-        <button onClick={this.greet}>Greet</button>
+      <form onSubmit={this.handleSubmit}>
+        <input placeholder='Name' ref='name2greet' required/>
+        <input type='email' placeholder='Email' ref='email2greet' required/>
+        <button type='submit'>Greet</button>
       </form>
     );
   }
 });
 
 var ListOfGreetings = React.createClass({
-  getInitialState: function(){
-    return {users: []};
-  },
-  greet: function(){
-    this.setState({
-      users: this.state.users.concat(this.refs.name2greet.value)
-    }, function() {
-        this.refs.name2greet.value = '';
-      }
-    );
-  },
   componentDidMount: function(){
     console.log('Mounted');
   },
@@ -46,8 +41,13 @@ var ListOfGreetings = React.createClass({
     console.log('Clicked');
   },
   render: function(){
-    var usersLIs = this.state.users.map(function(name, i){
-      return <OneUserGreeting name={name} key={i} />;
+    var usersLIs = this.props.users.map(function(user, i){
+      return (
+        <div>
+          <OneUserGreeting user={user} key={i} />
+          <DeleteLine />
+        </div>
+      )
     });
     return (
       <div>
@@ -60,12 +60,20 @@ var ListOfGreetings = React.createClass({
 });
 
 var App = React.createClass({
+  getInitialState: function(){
+    return {users: []};
+  },
+  greet: function(user){
+    this.setState({
+      users: this.state.users.concat(user)
+    });
+  },
   render: function(){
     return (
       <div>
-        <Form />
-        <Line />
-        <ListOfGreetings />
+        <Form greet={this.greet} />
+        <hr />
+        <ListOfGreetings users={this.state.users}/>
       </div>
     )
   }
