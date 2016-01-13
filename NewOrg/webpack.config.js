@@ -6,7 +6,7 @@ module.exports = {
     },
     resolve: {
       path: __dirname,
-      extensions: ['', 'jsx']
+      extensions: ['', '.jsx', '.js']
     },
     module: {
         loaders: [

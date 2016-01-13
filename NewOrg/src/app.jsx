@@ -1,5 +1,6 @@
 var React = require('react');
-var OneUserGreeting = require('components/OneUserGreeting.')
+var ReactDOM = require("react-dom");
+var OneUserGreeting = require('./components/OneUserGreeting')
 
 var DeleteLine = React.createClass({
   render: function(){
@@ -80,7 +81,7 @@ var App = React.createClass({
   }
 })
 
-React.render(
+ReactDOM.render(
   <App />,
   document.getElementById('root')
 );
